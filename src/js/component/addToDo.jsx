@@ -1,8 +1,12 @@
 import React from "react";
 
-const AddToDo = () => {
+const AddToDo = ({input, newTask, sendData}) => {
+
     return (
-        <input className="addToDo mt-3" type="text" placeholder="Agregar tarea" onChange={EventTarget} />
+        <form onSubmit={sendData}>
+            <input className="addToDo mt-3" type="text" placeholder="Agregar tarea" value={input} onChange={newTask} />
+            <button type="submit" className="btn btn-primary">Añadir tarea</button>
+        </form>
     )
 }
 
