@@ -6,36 +6,63 @@ import ToDo from "./toDo";
 const Home = () => {
     const [toDo, setToDo] = useState([]);
     const [input, setInput] = useState("");
+    const [key, setKey] = useState(toDo.length)
     const newTask = (e) => {
-        setInput(e.target.value)
+        setInput(e.target.value);
     }
     const sendData = (e) => {
-        e.preventDefault()
-        if (!input.trim()) return;
-        setToDo([...toDo, input])
-        setInput("")
+        e.preventDefault();
+        const newTodo = {id: key, label: input, done: false};
+        setToDo([...toDo, newTodo]);
+        setKey(key +1);
+        setInput("");
     }
 
-    const fetchToDo = async (endpoint) => {
+    const handleRemove = (id) =>{
+        const updatedToDo = toDo.filter((task) => task.id !== id);
+    setToDo(updatedToDo);
+    }
+
+    const fetchToDo = async (endpoint, config) => {
         const response = await fetch(endpoint);
         const toDoData = await response.json();
         setToDo(toDoData);
+        
     }
 
     useEffect(() => {
-        fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen")
+        fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen", { method: "GET" })
     }, [])
+
+    const fetchPutToDo = async (endpoint, config) => {
+        try {
+            const response = await fetch(endpoint, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(toDo)
+            });
+            if (!response.ok) {
+                throw new Error('Error al enviar solicitud PUT');
+            }
+            const newData = await response.json();
+            setToDo(newData.map(task => task.label));
+        } catch (error) {
+            console.error('Error al enviar solicitud PUT:', error);
+        }
+    }
+
+    useEffect(() => {
+        fetchPutToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen", { method: "PUT" })
+    }, [toDo])
 
     return (
         <>
             <h1>Tareas pendiente</h1>
             <AddToDo input={input} newTask={newTask} sendData={sendData} />
-            <ul onClick={(e) => {
-                if (e.target.matches(".fa-trash")) {
-                    e.target.parentElement.parentElement.remove();
-                }
-            }}>
-                <ToDo toDo={toDo} />
+            <ul>
+                <ToDo toDo={toDo} handleRemove={handleRemove}/>
             </ul>
         </>
     )
