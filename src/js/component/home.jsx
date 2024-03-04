@@ -18,38 +18,41 @@ const Home = () => {
         setInput("");
     }
 
-    const handleDone = () => {
+    const handleDone = (index) => {
         const toDoDone = toDo;
         toDoDone[index].done = !toDoDone[index].done;
         setToDo(toDoDone);
         updateToDoApi(toDoDone);
+        data();
     };
 
-    const handleRemove = (id) => {
-        const updatedToDo = toDo.filter((task) => task.id !== id);
-        updateToDoApi(updatedToDo);
+    const handleRemove = (index) => {
+        const updatedToDo = toDo.filter((_, i) => i !== index);
         setToDo(updatedToDo);
+        updateToDoApi(updatedToDo);
     }
 
     const fetchToDo = async (endpoint, config) => {
         const response = await fetch(endpoint);
         const toDoData = await response.json();
         setToDo(toDoData);
-
+    }
+    const data = () => {
+        fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen")
     }
 
     useEffect(() => {
-        fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen", { method: "GET" })
-    }, [toDo])
+        data()
+    }, [])
 
-    const updateToDoApi = async (upDateData) => {
+    const updateToDoApi = async () => {
         try {
             const response = await fetch("https://playground.4geeks.com/apis/fake/todos/user/grokhen", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(upDateData)
+                body: JSON.stringify(toDo)
             });
             if (!response.ok) {
                 throw new Error('Error al enviar solicitud PUT');
