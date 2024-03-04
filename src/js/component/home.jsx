@@ -6,24 +6,29 @@ import ToDo from "./toDo";
 const Home = () => {
     const [toDo, setToDo] = useState([]);
     const [input, setInput] = useState("");
-    const [key, setKey] = useState(toDo.length)
     const newTask = (e) => {
         setInput(e.target.value);
     }
     const sendData = (e) => {
         e.preventDefault();
-        const newTodo = { id: key, label: input, done: false };
+        const newTodo = { label: input, done: false };
         const updateList = [...toDo, newTodo];
-        setToDo(updateList);
         updateToDoApi(updateList);
-        setKey(key + 1);
+        setToDo(updateList);
         setInput("");
     }
 
+    const handleDone = () => {
+        const toDoDone = toDo;
+        toDoDone[index].done = !toDoDone[index].done;
+        setToDo(toDoDone);
+        updateToDoApi(toDoDone);
+    };
+
     const handleRemove = (id) => {
         const updatedToDo = toDo.filter((task) => task.id !== id);
+        updateToDoApi(updatedToDo);
         setToDo(updatedToDo);
-        updateToDoApi(updatedToDo)
     }
 
     const fetchToDo = async (endpoint, config) => {
@@ -35,7 +40,7 @@ const Home = () => {
 
     useEffect(() => {
         fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen", { method: "GET" })
-    }, [])
+    }, [toDo])
 
     const updateToDoApi = async (upDateData) => {
         try {
@@ -61,9 +66,9 @@ const Home = () => {
         <>
             <h1>Tareas pendientes</h1>
             <AddToDo input={input} newTask={newTask} sendData={sendData} />
-            <ul>
-                <ToDo toDo={toDo} handleRemove={handleRemove} />
-            </ul>
+            <div className="container text-center">
+                <ToDo toDo={toDo} handleRemove={handleRemove} handleDone={handleDone} />
+            </div>
         </>
     )
 }

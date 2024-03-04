@@ -1,13 +1,44 @@
 #app {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family: "MedievalSharp", cursive;
-    font-weight: 400;
-    font-style: normal;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "Freehand", cursive;
+  font-weight: 400;
+  font-style: normal;
+  width: 75%;
+  min-height: calc((1vw + 1vh) * 75);
+  top: 0%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 2em 0;
+  padding: 4em;
+  box-shadow: 2px 3px 20px black, 0 0 60px #8a4d0f inset;
+  background: #fffef0;
+  filter: url(#wavy2);
+
 }
 
-h1 {
-    margin-top: 50px;
+
+
+.button {
+  padding: 10px 20px;
+  background-color: #795649;
+  color: #f4e5c3;
+  border: 2px solid #c0a080; 
+  font-size: 18px;
+  text-shadow: 1px 1px 0px #a67c52;
+  box-shadow: 2px 2px 0px #a67c52;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button:active {
+  box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5); /* An inset shadow for a pressed effect */
+  transform: translateY(2px); /* Moves the button down to simulate a press */
+}
+
+.completed {
+  text-decoration: line-through;
 }
