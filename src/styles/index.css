@@ -35,10 +35,49 @@
 }
 
 .button:active {
-  box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5); /* An inset shadow for a pressed effect */
-  transform: translateY(2px); /* Moves the button down to simulate a press */
+  box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5); 
+  transform: translateY(2px); 
 }
 
-.completed {
-  text-decoration: line-through;
+.deleteBtn {
+  margin: 10px;
+  background-color: rgb(151, 15, 15);
+  color: whitesmoke;
+  transition: all 0.3s ease;
 }
+
+.deleteBtn:active {
+  box-shadow: inset 1px 1px 2px 0px rgba(0, 0, 0, 0.5); 
+  transform: translateY(2px); 
+}
+
+
+.completed {
+  position: relative;
+  display: inline-block;
+}
+
+.completed::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px; 
+  width: calc(100% + 10px); 
+  height: 2px; 
+  background-color: red; 
+  transform: rotate(-2deg); 
+  z-index: -1; 
+}
+
+.completed::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -5px; 
+  width: calc(100% + 10px); 
+  height: 2px; 
+  background-color: red; 
+  transform: rotate(2deg); 
+  z-index: -1; 
+}
+

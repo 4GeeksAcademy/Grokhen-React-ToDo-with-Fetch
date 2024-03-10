@@ -9,13 +9,13 @@ const Home = () => {
 
     useEffect(() => {
         fetch("https://playground.4geeks.com/apis/fake/todos/user/grokhen", {
-          method: "POST",
-          body: JSON.stringify([]),
-          headers: {
-            "Content-Type": "application/json",
-          },
+            method: "POST",
+            body: JSON.stringify([]),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
-      }, [account]);
+    }, [account]);
 
     const newTask = (e) => {
         setInput(e.target.value);
@@ -85,6 +85,24 @@ const Home = () => {
         fetchToDo("https://playground.4geeks.com/apis/fake/todos/user/grokhen");
     }, []);
 
+    const handleDeleteAccount = async () => {
+        try {
+          const response = await fetch(
+            "https://playground.4geeks.com/apis/fake/todos/user/grokhen",
+            {
+              method: "DELETE",
+            }
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          setToDo([]);
+          alert("Account deleted successfully");
+        } catch (error) {
+          console.error("Error deleting account:", error);
+        }
+      };
+
     return (
         <>
             <h1>Tareas pendientes</h1>
@@ -92,6 +110,9 @@ const Home = () => {
             <div className="container text-center">
                 <ToDo toDo={toDo} handleRemove={handleRemove} handleDone={handleDone} />
             </div>
+            <button className="deleteBtn" onClick={handleDeleteAccount}>
+                Borrar cuenta
+            </button>
         </>
     );
 };

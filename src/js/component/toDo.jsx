@@ -9,7 +9,7 @@ const ToDo = ({ toDo, handleRemove, handleDone }) => {
                         <span className={task.done ? "completed" : ""}>{task.label}</span>
                     </div>
                     <div className="col-4">
-                        <i className="fa fa-trash" onClick={() => handleRemove(index)}></i>
+                        <i className="fa fa-skull" onClick={() => handleRemove(index)}></i>
                     </div>
                 </div>
             ))}

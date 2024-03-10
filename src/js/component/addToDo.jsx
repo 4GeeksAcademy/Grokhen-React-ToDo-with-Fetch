@@ -4,7 +4,7 @@ const AddToDo = ({ input, newTask, sendData }) => {
     return (
         <form onSubmit={sendData}>
             <input
-                className="addToDo mt-3"
+                className="addToDo mt-5"
                 type="text"
                 placeholder="Agregar tarea"
                 value={input}
